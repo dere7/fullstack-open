@@ -1,0 +1,19 @@
+title Create new note with SPA
+
+note over Browser:
+user inserts new content into form 
+and submits it
+then the browser sends Post request as json body
+in addtions the browser adds the new note to the page
+end note
+
+Browser->Server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+
+note right of Server:
+creates a new note and
+end note
+
+note over Browser:
+this all happens using AJAX without reloading the page
+and making round trip to server
+end note

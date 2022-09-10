@@ -1,0 +1,35 @@
+title Create new note
+
+note over Browser:
+user inserts new content into form 
+and submits it
+end note
+
+Browser->Server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note
+
+note right of Server:
+creates a new note and
+redirects to /exampleapp/notes
+end note
+
+note over Browser:
+browser loads the page and
+other resources(css, js) on separately
+end note
+
+Browser ->  Server: HTTP GET  https://studies.cs.helsinki.fi/exampleapp/notes
+
+Server -> Browser: responds with page
+
+note right of Browser:
+executes js that loads note.json
+end note
+
+Browser -> Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/data.json
+Server -> Browser: data.json
+
+note left of Browser:
+adds new note to the DOM tree
+using js
+end note
+

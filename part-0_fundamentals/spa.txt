@@ -1,0 +1,21 @@
+title Single page application
+
+Browser->Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/spa
+Server->Browser: Responds with intial HTML document
+
+note right of Browser:
+browser loads other required resources(css, js...)
+end note
+
+Browser ->  Server: HTTP GET  https://studies.cs.helsinki.fi/exampleapp/data.json
+Server -> Browser: data.json
+
+note right of Server:
+server sends data.json
+end note
+
+note left of Browser:
+the browser requests data.json and 
+adds it to HTML tree
+end note
+

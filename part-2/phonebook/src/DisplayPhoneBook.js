@@ -4,8 +4,8 @@ const DisplayPhoneBook = ({ phoneBook }) => {
   return (
     <>
       <h2>Numbers</h2>
-      {phoneBook.map(({ name, number }) => (
-        <p key={name}>
+      {phoneBook.map(({ id, name, number }) => (
+        <p key={id}>
           {name} {number}
         </p>
       ))}

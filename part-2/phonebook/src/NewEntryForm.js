@@ -1,12 +1,14 @@
 import { useState } from 'react';
 
-const NewEntryForm = ({ addNote }) => {
+const NewEntryForm = ({ addNew }) => {
   const [newName, setNewName] = useState('');
   const [number, setNumber] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    addNote(newName, number);
+    addNew(newName, number);
+    setNewName('');
+    setNumber('');
   };
   return (
     <>

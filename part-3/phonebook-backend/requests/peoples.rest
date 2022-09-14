@@ -1,0 +1,42 @@
+POST http://localhost:3001/api/persons
+Content-Type: application/json
+
+{
+    "name": "John Doe",
+    "number": "1234-3232343"
+}
+###
+POST http://localhost:3001/api/persons
+Content-Type: application/json
+
+{
+    "name": "John Doe",
+    "number": "1234-3232343"
+}
+###
+POST http://localhost:3001/api/persons
+Content-Type: application/json
+
+{
+    "name": "John Doe",
+    "number": "1234-3232343"
+}
+###
+PUT http://localhost:3001/api/persons/632078dc225e988c6c0e265a
+Content-Type: application/json
+
+{
+    "name": "John Doe",
+    "number": "34343-34344"
+}
+###
+http://localhost:3001/api/persons/632070d074b06e2bd62ad70c
+###
+http://localhost:3001/api/persons/632070d074b06e2bd62ad70d
+###
+http://localhost:3001/api/persons/632
+###
+GET http://localhost:3001/api/persons
+
+###
+DELETE http://localhost:3001/api/persons/6321bb409be423fb50706fb5

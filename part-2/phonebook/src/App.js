@@ -31,9 +31,7 @@ const App = () => {
           setPersons(persons.concat(data));
           setMessage(`Added ${newName}`);
         })
-        .catch((err) =>
-          setErrorMessage(`Unable to insert to phonebook: ${err}`)
-        );
+        .catch((err) => setErrorMessage(err.response.data.error));
     } else {
       // eslint-disable-next-line no-restricted-globals
       const confirmUpdate = confirm(

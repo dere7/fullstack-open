@@ -12,12 +12,12 @@ const personSchema = new mongoose.Schema({
   name: {
     type: String,
     minLength: 3,
-    required: true,
+    required: [true, 'name is required'],
   },
   number: {
     type: String,
     minLength: 8,
-    required: true,
+    required: [true, 'number is required'],
     validate: {
       validator: function (str) {
         return str.includes('-') ?

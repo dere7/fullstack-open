@@ -1,23 +1,23 @@
 require('dotenv').config()
 const mongoose = require('mongoose')
 
-if (process.argv.length < 2) {
-  console.log('Usage: node mongo.js')
+if (process.argv.length < 3) {
+  console.log('Usage: node mongo.js <password>')
   process.exit(1)
 }
 
-const password = process.env.PASSWORD
-const url = process.env.MONGODB_URI
+const password = process.argv[2]
+const url = `mongodb+srv://fullstack-dev:${password}@cluster0.jehqh.mongodb.net/phonebook?retryWrites=true&w=majority`
 
 const Person = mongoose.model('Person', new mongoose.Schema({
   name: String,
   number: String
 }))
 
-mongoose.connect(url)
+mongoose.connect(url).then(() => console.log('Connected to MongoDB'))
   .catch(err => console.log('Unable to connect to Mongodb:', err))
 
-if (process.argv.length == 2) {
+if (process.argv.length == 3) {
   Person.find({}).then(persons => {
     console.log('phonebook:')
     persons.forEach(({ name, number }) => {
@@ -27,18 +27,18 @@ if (process.argv.length == 2) {
   })
 }
 
-if (process.argv.length >= 4) {
+if (process.argv.length >= 5) {
   const person = new Person({
-    name: process.argv[2],
-    number: process.argv[3],
+    name: process.argv[3],
+    number: process.argv[4],
   })
-  person.save().then(res => {
+  person.save().then(() => {
     console.log('Successfully created!')
     mongoose.connection.close()
   })
 }
 
-if (process.argv.length == 3) {
-  console.log('Usage: node mongo.js <name> <number>')
+if (process.argv.length == 4) {
+  console.log('Usage: node mongo.js <password> <name> <number>')
   process.exit(1)
 }

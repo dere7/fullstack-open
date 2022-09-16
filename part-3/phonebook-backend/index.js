@@ -12,14 +12,6 @@ app.use(express.json())
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
 app.use(cors())
 
-app.get('/info', (req, res) => {
-  res.send(`
-  <div>
-    <p>phonebook has info for ${persons.length} people
-    <p>${new Date()}</p>
-  </div>`)
-})
-
 app.get('/api/persons', (req, res) => {
   Person.find({}).then(persons => {
     res.json(persons)
@@ -46,7 +38,7 @@ app.delete('/api/persons/:id', (req, res, next) => {
 app.post('/api/persons', (req, res, next) => {
   const { name, number } = req.body
   Person.find({ name }).then(results => {
-    if (results.length != 0) {
+    if (results.length !== 0) {
       return res.status(400).json({
         error: 'name must be unique'
       })

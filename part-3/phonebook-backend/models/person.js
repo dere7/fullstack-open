@@ -19,8 +19,9 @@ const personSchema = new mongoose.Schema({
     minLength: 8,
     required: true,
     validate: {
-      validator: function (v) {
-        return /^\d{2,3}-?\d{6,}$/.test(v)
+      validator: function (str) {
+        return str.includes('-') ?
+          /^\d{2,3}-?\d+$/.test(str) : true
       }
     }
   }

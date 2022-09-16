@@ -9,7 +9,8 @@
     "build:ui": "rm -rf build && cd ../../part-2/phonebook/ && yarn build && cp -r build ../../part-3/phonebook-backend",
     "deploy": "fly deploy",
     "deploy:full": "yarn build:ui && yarn deploy",
-    "logs:prod": "fly logs"
+    "logs:prod": "fly logs",
+    "lint": "eslint ."
   },
   "dependencies": {
     "cors": "^2.8.5",

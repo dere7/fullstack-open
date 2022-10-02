@@ -2,6 +2,7 @@ http://localhost:3003/api/blogs
 ###
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImpvaG4xMiIsImlkIjoiNjMzMmE1ZDdhN2I5YmYxMDRiYzY5MjlkIiwiaWF0IjoxNjY0NTI4MTg4LCJleHAiOjE2NjU4MjQxODh9.fB1josPK5k1mAcVAQS0ImwGW2h6yXIPr33HZhRFDFNQ
 
 {
     "title": "test title",
@@ -9,3 +10,7 @@ Content-Type: application/json
     "url": "http://somesite.com",
     "likes": 0
 }
+###
+DELETE http://localhost:3003/api/blogs/6336b379065801d63b876b3b
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImpvaG4xMiIsImlkIjoiNjMzMmE1ZDdhN2I5YmYxMDRiYzY5MjlkIiwiaWF0IjoxNjY0NTI4MTg4LCJleHAiOjE2NjU4MjQxODh9.fB1josPK5k1mAcVAQS0ImwGW2h6yXIPr33HZhRFDFNQ

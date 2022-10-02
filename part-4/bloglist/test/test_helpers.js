@@ -1,4 +1,8 @@
 const Blog = require('../model/blog')
+const supertest = require('supertest')
+const app = require('../app')
+
+const api = supertest(app)
 
 const bloglist = [
   {
@@ -24,4 +28,4 @@ const deletedPost = async () => {
   return newBlog.id
 }
 
-module.exports = { bloglist, blogsInDb, deletedPost }
+module.exports = { bloglist, blogsInDb, deletedPost, api }

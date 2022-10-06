@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import blogsService from '../services/blogs'
 
 const NewBlogForm = ({ onSubmit }) => {
   const [title, setTitle] = useState('')

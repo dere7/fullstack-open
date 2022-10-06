@@ -1,0 +1,12 @@
+.blog {
+    margin: 5px;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+}
+.blog p {
+    margin: 5px;
+}
+
+.blog button {
+    margin-left: 10px;
+}

@@ -9,10 +9,15 @@ const blogSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
   },
+  likedBy: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  }]
 })
 
 blogSchema.set('toJSON', {
-  transform: (_, returnedObject) => {
+  transform: (doc, returnedObject) => {
+    doc = doc
     returnedObject.id = returnedObject._id.toString()
     delete returnedObject._id
     delete returnedObject.__v

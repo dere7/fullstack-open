@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import LoginForm from './components/LoginForm'
 import NewBlogForm from './components/NewBlogForm'
 import Notification from './components/Notification'
+import Togglable from './components/Togglable'
 import blogsService from './services/blogs'
 import loginService from './services/login'
 
@@ -11,9 +12,14 @@ const App = () => {
   const [user, setUser] = useState(null)
   const [error, setError] = useState('')
   const [msg, setMsg] = useState('')
+  const newBlogFormRef = useRef()
 
   useEffect(() => {
-    blogsService.getAll().then((blogs) => setBlogs(blogs))
+    (async () => {
+      const blogs = await blogsService.getAll()
+      blogs.sort((a, b) => b.likes - a.likes)
+      setBlogs(blogs)
+    })()
   }, [])
 
   useEffect(() => {
@@ -27,12 +33,23 @@ const App = () => {
 
   const handleAddBlog = async (blog) => {
     try {
-      await blogsService.createBlog(blog)
-      setBlogs([...blogs, blog])
+      const newBlog = await blogsService.createBlog(blog)
+      setBlogs([...blogs, newBlog])
       setMsg('successfully added new blog')
+      newBlogFormRef.current.toggleVisible()
     } catch (error) {
       setError('unable to add new note:' + error.response.data.error)
     }
+  }
+
+  const handleUpdateBlog = (updatedBlog) => {
+    const newBlogs = blogs.map((blog) => {
+      if (blog.id === updatedBlog.id) {
+        return updatedBlog
+      }
+      return blog
+    })
+    setBlogs(newBlogs)
   }
 
   const handleLogout = () => {
@@ -49,7 +66,21 @@ const App = () => {
       localStorage.setItem('user', JSON.stringify(user))
       setMsg('successfully logged in')
     } catch (error) {
-        setError('invalid credetials')
+      setError('invalid credetials')
+    }
+  }
+
+  const handleBlogDelete = async (blog) => {
+    if (!window.confirm(`Removing blog ${blog.title} by ${blog.author}`)) {
+      return
+    }
+    const id = blog.id
+    try {
+      await blogsService.deleteBlog(blog.id)
+      const newBlogs = blogs.filter(blog => blog.id !== id)
+      setBlogs(newBlogs)
+    } catch (error) {
+      if (error.response) setError(error.response.data.error)
     }
   }
 
@@ -91,12 +122,14 @@ const App = () => {
       )}
       <h2>blogs</h2>
       <p>
-        {user.name} logged in
+        {user.name || user.username} logged in
         <button onClick={handleLogout}>logout</button>
       </p>
-      <NewBlogForm onSubmit={handleAddBlog} />
+      <Togglable buttonLabel="New blog" ref={newBlogFormRef}>
+        <NewBlogForm onSubmit={handleAddBlog} />
+      </Togglable>
       {blogs.map((blog) => (
-        <Blog key={blog.id} blog={blog} />
+        <Blog key={blog.id} blog={blog} deleteBlog={handleBlogDelete} updateBlog={handleUpdateBlog} />
       ))}
     </div>
   )

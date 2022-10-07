@@ -1,0 +1,11 @@
+For comming 30 days
+    - get your first dollar on upwork
+    - make greatest progress on Enibila
+    - build at least 3 project
+        * Amazon clone
+        +* Blogy
+        * Sidamic Bible application
+        +* booking site
+        - Portifolio site
+    - finish up fullstack open
+    - be ready for coming semiseter

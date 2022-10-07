@@ -42,7 +42,8 @@ const App = () => {
     }
   }
 
-  const handleUpdateBlog = (updatedBlog) => {
+  const handleLike = async (blogId) => {
+    const updatedBlog = await blogsService.likeBlog(blogId)
     const newBlogs = blogs.map((blog) => {
       if (blog.id === updatedBlog.id) {
         return updatedBlog
@@ -66,7 +67,7 @@ const App = () => {
       localStorage.setItem('user', JSON.stringify(user))
       setMsg('successfully logged in')
     } catch (error) {
-      setError('invalid credetials')
+      setError('invalid credentials')
     }
   }
 
@@ -77,7 +78,7 @@ const App = () => {
     const id = blog.id
     try {
       await blogsService.deleteBlog(blog.id)
-      const newBlogs = blogs.filter(blog => blog.id !== id)
+      const newBlogs = blogs.filter((blog) => blog.id !== id)
       setBlogs(newBlogs)
     } catch (error) {
       if (error.response) setError(error.response.data.error)
@@ -128,9 +129,16 @@ const App = () => {
       <Togglable buttonLabel="New blog" ref={newBlogFormRef}>
         <NewBlogForm onSubmit={handleAddBlog} />
       </Togglable>
-      {blogs.map((blog) => (
-        <Blog key={blog.id} blog={blog} deleteBlog={handleBlogDelete} updateBlog={handleUpdateBlog} />
-      ))}
+      <div className="blogs">
+        {blogs.map((blog) => (
+          <Blog
+            key={blog.id}
+            blog={blog}
+            deleteBlog={handleBlogDelete}
+            handleLike={handleLike}
+          />
+        ))}
+      </div>
     </div>
   )
 }

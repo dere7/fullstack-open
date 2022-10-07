@@ -1,17 +1,12 @@
 import { useState } from 'react'
 import PropTypes from 'prop-types'
-import blogsService from '../services/blogs'
 import './Blog.css'
 
-const Blog = ({ blog, updateBlog, deleteBlog }) => {
+const Blog = ({ blog, handleLike, deleteBlog }) => {
   const [show, setShow] = useState(false)
 
   const { user, likes, author, title, url } = blog
   const toggleVisible = () => setShow(!show)
-  const handleLike = async () => {
-    const updatedBlog = await blogsService.likeBlog(blog.id)
-    updateBlog(updatedBlog)
-  }
 
   return (
     <div className="blog">
@@ -21,7 +16,7 @@ const Blog = ({ blog, updateBlog, deleteBlog }) => {
         <>
           <p>{url}</p>
           <p>
-            likes {likes} <button onClick={handleLike}>like</button>
+            likes {likes} <button onClick={() => handleLike(blog.id)}>like</button>
           </p>
           <p>{user.name || user.username}</p>
           <button onClick={() => deleteBlog(blog)}>Delete</button>
@@ -34,7 +29,7 @@ const Blog = ({ blog, updateBlog, deleteBlog }) => {
 Blog.propTypes = {
   blog: PropTypes.object.isRequired,
   deleteBlog: PropTypes.func.isRequired,
-  updateBlog: PropTypes.func.isRequired
+  handleLike: PropTypes.func.isRequired
 }
 
 export default Blog

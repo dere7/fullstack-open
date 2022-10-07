@@ -28,7 +28,7 @@ const likeBlog = async (id) => {
       authorization: token,
     },
   }
-  const response = await axios.put(`${baseUrl}/${id}/like`, config)
+  const response = await axios.put(`${baseUrl}/${id}/like`, {}, config)
   return response.data
 }
 

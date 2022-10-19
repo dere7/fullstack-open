@@ -1,21 +1,15 @@
 const blogRouter = require('express').Router()
 const Blog = require('../model/blog')
-const { userExtractor } = require('../utils/middlewares')
+const { userExtractor, blogExtracter } = require('../utils/middlewares')
+
 
 blogRouter.get('/', async (request, response) => {
   const blogs = await Blog.find({}).populate('user', { username: 1, name: 1 })
   response.json(blogs)
 })
 
-blogRouter.get('/:id', async (request, response) => {
-  const blog = await Blog.findById(request.params.id).populate('user', {
-    username: 1,
-    name: 1,
-  })
-  if (!blog) {
-    return response.status(404)
-  }
-  response.json(blog)
+blogRouter.get('/:id', blogExtracter, async (request, response) => {
+  response.json(request.blog)
 })
 
 blogRouter.post('/', userExtractor, async (request, response) => {
@@ -39,8 +33,8 @@ blogRouter.post('/', userExtractor, async (request, response) => {
   response.status(201).json(result)
 })
 
-blogRouter.delete('/:id', userExtractor, async (request, response) => {
-  const blog = await Blog.findById(request.params.id).populate('user')
+blogRouter.delete('/:id', userExtractor, blogExtracter, async (request, response) => {
+  const blog = request.blog
   if (blog.user._id.toString() !== request.user.id.toString()) {
     return response
       .status(401)
@@ -50,13 +44,9 @@ blogRouter.delete('/:id', userExtractor, async (request, response) => {
   response.status(204).end()
 })
 
-blogRouter.put('/:id', userExtractor, async (request, response) => {
-  const id = request.params.id
-  const blog = await Blog.findById(id)
-  if (!blog) {
-    return response.status(404).end()
-  }
-  if (blog.user.toString() !== request.user.id.toString()) {
+blogRouter.put('/:id', userExtractor, blogExtracter, async (request, response) => {
+  const blog = request.blog
+  if (blog.user._id.toString() !== request.user.id.toString()) {
     return response
       .status(401)
       .json({ error: 'you cannot update a blog that you haven\'t created' })
@@ -68,16 +58,8 @@ blogRouter.put('/:id', userExtractor, async (request, response) => {
   response.json(newBlog)
 })
 
-blogRouter.put('/:id/like', userExtractor, async (request, response) => {
-  const id = request.params.id
-  const blog = await Blog.findById(id).populate('user', {
-    username: 1,
-    name: 1,
-  })
-  if (!blog) {
-    return response.status(404).end()
-  }
-  const user = request.user
+blogRouter.put('/:id/like', userExtractor, blogExtracter, async (request, response) => {
+  const { blog, user } = request
   if (!blog.likedBy.includes(user._id)) {
     console.log(user._id, blog.likedBy)
     blog.likedBy.push(user.id)
@@ -87,6 +69,18 @@ blogRouter.put('/:id/like', userExtractor, async (request, response) => {
     await user.save()
   }
   response.json(blog)
+})
+
+blogRouter.get('/:id/comments', blogExtracter, async (request, response) => {
+  response.json(request.blog.comments)
+})
+
+blogRouter.post('/:id/comments', blogExtracter, async (request, response) => {
+  const blog = request.blog
+  const { comment } = request.body
+  blog.comments.push(comment)
+  await blog.save()
+  response.status(201).json(blog)
 })
 
 module.exports = blogRouter

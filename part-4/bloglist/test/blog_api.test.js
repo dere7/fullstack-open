@@ -108,6 +108,7 @@ describe('api updates post', () => {
       .send({ title: 'new title', likes: 23 })
       .set({ Authorization: token })
 
+    console.log(response.body)
     const updated = response.body
     expect(updated.title).toBe('new title')
   })

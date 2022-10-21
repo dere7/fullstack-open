@@ -162,6 +162,8 @@ const resolvers = {
     },
     editAuthor(root, args) {
       const author = authors.find(a => a.name === args.name)
+      const bookCount = books.reduce((prev, cur) => prev + cur.author === author.name ? 1 : 0, 0)
+      author.bookCount = bookCount
       if (author) {
         author.born = args.setBornTo
         authors = authors.map(a => a.name === args.name ? author : a)

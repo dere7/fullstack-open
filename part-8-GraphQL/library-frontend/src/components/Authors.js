@@ -31,7 +31,9 @@ const Authors = (props) => {
           ))}
         </tbody>
       </table>
-      <BirthForm authors={data.allAuthors.map(a => a.name)} />
+      {props.isLoggedIn &&
+        <BirthForm authors={data.allAuthors.map(a => a.name)} />
+      }
     </div>
   )
 }

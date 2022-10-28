@@ -12,6 +12,7 @@ const Authors = (props) => {
 
   if (loading) return <p>loading...</p>
 
+  console.log(data)
   return (
     <div>
       <h2>authors</h2>

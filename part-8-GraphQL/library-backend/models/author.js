@@ -10,16 +10,11 @@ const schema = new mongoose.Schema({
   },
   born: {
     type: Number,
-  }
-}, {
-  virtuals: {
-    bookCount: {
-      async get() {
-        const books = await Book.find({ author: this._id }).count()
-        return books
-      }
-    }
-  }
+  },
+  books: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Book'
+  }]
 })
 
 const Author = mongoose.model('Author', schema)

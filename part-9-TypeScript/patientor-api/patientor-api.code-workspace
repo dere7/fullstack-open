@@ -1,0 +1,12 @@
+{
+  "folders": [
+    {
+      "name": "patientor-api",
+      "path": "."
+    },
+    {
+      "path": "../express-ts-example"
+    }
+  ],
+  "settings": {}
+}
